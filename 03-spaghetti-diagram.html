@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spaghetti Diagram — Before vs After</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f8fafc; padding: 2rem; text-align: center; }
+  h1 { color: #1C4E80; font-size: 1.3rem; margin-bottom: 0.2rem; }
+  p.sub { color: #64748B; font-size: 0.82rem; margin-bottom: 1.5rem; }
+  .row { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+  .panel { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; }
+  .panel h2 { font-size: 1rem; margin: 0 0 0.5rem; }
+  .before h2 { color: #DC2626; }
+  .after h2 { color: #1A6B3A; }
+  .metric { display: inline-block; margin: 0.5rem 0.8rem; font-size: 13px; color: #374151; }
+  .metric strong { display: block; font-size: 22px; }
+  .before .metric strong { color: #DC2626; }
+  .after .metric strong { color: #1A6B3A; }
+  .improvement { background: #ECFDF5; border: 1px solid #6EE7B7; border-radius: 6px; padding: 0.6rem 1.2rem; margin: 1rem auto; display: inline-block; font-size: 14px; color: #065F46; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Spaghetti Diagram — Material Travel Path: Before vs. After Lean Layout</h1>
+<p class="sub">AutoBrake Components Pvt. Ltd. | Traced path for Disc Rotor (Part P1) through one complete production cycle</p>
+
+<div class="row">
+  <!-- BEFORE -->
+  <div class="panel before">
+    <h2>BEFORE — Process (Functional) Layout</h2>
+    <svg width="440" height="380" viewBox="0 0 440 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#DC2626" stroke-width="2"/>
+        </marker>
+      </defs>
+      <!-- Department boxes -->
+      <rect x="10" y="10" width="90" height="55" rx="4" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1.5"/>
+      <text x="55" y="34" text-anchor="middle" font-size="11" font-weight="bold" fill="#991B1B" font-family="Arial">RAW MATERIAL</text>
+      <text x="55" y="50" text-anchor="middle" font-size="10" fill="#7F1D1D" font-family="Arial">STORE</text>
+
+      <rect x="150" y="10" width="90" height="55" rx="4" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.5"/>
+      <text x="195" y="34" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400E" font-family="Arial">CNC LATHE</text>
+      <text x="195" y="50" text-anchor="middle" font-size="10" fill="#78350F" font-family="Arial">SECTION (M1)</text>
+
+      <rect x="320" y="10" width="100" height="55" rx="4" fill="#E0E7FF" stroke="#A5B4FC" stroke-width="1.5"/>
+      <text x="370" y="34" text-anchor="middle" font-size="11" font-weight="bold" fill="#3730A3" font-family="Arial">MILLING</text>
+      <text x="370" y="50" text-anchor="middle" font-size="10" fill="#312E81" font-family="Arial">SECTION (M2)</text>
+
+      <rect x="10" y="160" width="90" height="55" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.5"/>
+      <text x="55" y="184" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532D" font-family="Arial">DRILLING</text>
+      <text x="55" y="200" text-anchor="middle" font-size="10" fill="#166534" font-family="Arial">SECTION (M3)</text>
+
+      <rect x="150" y="160" width="90" height="55" rx="4" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1.5"/>
+      <text x="195" y="184" text-anchor="middle" font-size="11" font-weight="bold" fill="#991B1B" font-family="Arial">GRINDING</text>
+      <text x="195" y="200" text-anchor="middle" font-size="10" fill="#7F1D1D" font-family="Arial">SECTION (M4)</text>
+
+      <rect x="320" y="160" width="100" height="55" rx="4" fill="#FDF4FF" stroke="#E879F9" stroke-width="1.5"/>
+      <text x="370" y="184" text-anchor="middle" font-size="11" font-weight="bold" fill="#701A75" font-family="Arial">BALANCING</text>
+      <text x="370" y="200" text-anchor="middle" font-size="10" fill="#581C87" font-family="Arial">SECTION (M9)</text>
+
+      <rect x="150" y="300" width="90" height="55" rx="4" fill="#F0FDF4" stroke="#6EE7B7" stroke-width="1.5"/>
+      <text x="195" y="324" text-anchor="middle" font-size="11" font-weight="bold" fill="#065F46" font-family="Arial">INSPECTION</text>
+      <text x="195" y="340" text-anchor="middle" font-size="10" fill="#064E3B" font-family="Arial">QC DEPT.</text>
+
+      <!-- WIP triangles (inventory accumulation) -->
+      <polygon points="110,27 125,50 95,50" fill="#F97316" opacity="0.8"/>
+      <text x="110" y="62" text-anchor="middle" font-size="8" fill="#C2410C" font-family="Arial">WIP</text>
+      <polygon points="250,177 265,200 235,200" fill="#F97316" opacity="0.8"/>
+      <text x="250" y="212" text-anchor="middle" font-size="8" fill="#C2410C" font-family="Arial">WIP</text>
+      <polygon points="300,177 315,200 285,200" fill="#F97316" opacity="0.8"/>
+      <text x="300" y="212" text-anchor="middle" font-size="8" fill="#C2410C" font-family="Arial">WIP</text>
+
+      <!-- Spaghetti travel paths — chaotic, crossing -->
+      <!-- 1: Raw → Lathe -->
+      <path d="M100 38 Q125 20 150 38" fill="none" stroke="#DC2626" stroke-width="2" stroke-dasharray="none" opacity="0.8" marker-end="url(#arrB)"/>
+      <!-- 2: Lathe → Drilling (backtrack) -->
+      <path d="M150 55 Q80 100 55 160" fill="none" stroke="#DC2626" stroke-width="2" opacity="0.8" marker-end="url(#arrB)"/>
+      <!-- 3: Drilling → Milling (long cross) -->
+      <path d="M100 187 Q230 120 320 55" fill="none" stroke="#DC2626" stroke-width="2" opacity="0.8" marker-end="url(#arrB)"/>
+      <!-- 4: Milling → Grinding (backtrack) -->
+      <path d="M370 65 Q320 120 240 160" fill="none" stroke="#B91C1C" stroke-width="2" opacity="0.8" marker-end="url(#arrB)"/>
+      <!-- 5: Grinding → Balancing -->
+      <path d="M240 187 Q280 160 320 187" fill="none" stroke="#B91C1C" stroke-width="2" opacity="0.8" marker-end="url(#arrB)"/>
+      <!-- 6: Balancing → Inspection (long) -->
+      <path d="M370 215 Q290 280 240 300" fill="none" stroke="#991B1B" stroke-width="2" opacity="0.8" marker-end="url(#arrB)"/>
+      <!-- 7: Inspection → back for re-check (defect loop) -->
+      <path d="M150 325 Q60 270 55 215" fill="none" stroke="#7F1D1D" stroke-width="2" stroke-dasharray="4,2" opacity="0.7" marker-end="url(#arrB)"/>
+      <text x="30" y="268" font-size="9" fill="#7F1D1D" font-family="Arial" transform="rotate(-70 30 268)">Rework loop</text>
+
+      <!-- Distance label -->
+      <rect x="10" y="355" width="420" height="22" rx="3" fill="#FEE2E2" stroke="#FCA5A5"/>
+      <text x="220" y="370" text-anchor="middle" font-size="11" font-weight="bold" fill="#DC2626" font-family="Arial">Total Travel Distance: 1,847 m per batch | 6 Departments crossed</text>
+    </svg>
+    <div>
+      <span class="metric"><strong>1,847 m</strong>Travel / batch</span>
+      <span class="metric"><strong>18 days</strong>Lead Time</span>
+      <span class="metric"><strong>4.2%</strong>PCE</span>
+    </div>
+  </div>
+
+  <!-- AFTER -->
+  <div class="panel after">
+    <h2>AFTER — Cellular Layout (Product Family-Based)</h2>
+    <svg width="440" height="380" viewBox="0 0 440 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#15803D" stroke-width="2"/>
+        </marker>
+      </defs>
+
+      <!-- Cell 1 boundary -->
+      <rect x="10" y="10" width="415" height="250" rx="8" fill="#EFF6FF" stroke="#1C4E80" stroke-width="2" stroke-dasharray="6,2"/>
+      <text x="215" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#1C4E80" font-family="Arial">CELL 1 — Rotational Components (U-Shape)</text>
+
+      <!-- Raw material -->
+      <rect x="20" y="45" width="80" height="45" rx="4" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.5"/>
+      <text x="60" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350F" font-family="Arial">RAW MAT.</text>
+      <text x="60" y="78" text-anchor="middle" font-size="9" fill="#92400E" font-family="Arial">KANBAN IN</text>
+
+      <!-- U-shape machines — top row left to right -->
+      <rect x="120" y="45" width="70" height="45" rx="4" fill="#1C4E80" stroke="#0F2D4E"/>
+      <text x="155" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Arial">M1 LATHE</text>
+      <text x="155" y="78" text-anchor="middle" font-size="9" fill="#CADCFC" font-family="Arial">32+38 s</text>
+
+      <rect x="205" y="45" width="70" height="45" rx="4" fill="#1C4E80" stroke="#0F2D4E"/>
+      <text x="240" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Arial">M3 DRILL</text>
+      <text x="240" y="78" text-anchor="middle" font-size="9" fill="#CADCFC" font-family="Arial">18+35 s</text>
+
+      <rect x="290" y="45" width="70" height="45" rx="4" fill="#1C4E80" stroke="#0F2D4E"/>
+      <text x="325" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Arial">M4 GRIND</text>
+      <text x="325" y="78" text-anchor="middle" font-size="9" fill="#CADCFC" font-family="Arial">44 s</text>
+
+      <rect x="370" y="45" width="42" height="45" rx="4" fill="#1C4E80" stroke="#0F2D4E"/>
+      <text x="391" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Arial">M9</text>
+      <text x="391" y="78" text-anchor="middle" font-size="9" fill="#CADCFC" font-family="Arial">Bal.</text>
+
+      <!-- Bottom row: Inspection exit -->
+      <rect x="290" y="185" width="122" height="45" rx="4" fill="#1A6B3A" stroke="#0F3D1F"/>
+      <text x="351" y="204" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Arial">CELL INSPECTION</text>
+      <text x="351" y="218" text-anchor="middle" font-size="9" fill="#BBF7D0" font-family="Arial">22 s in-cell</text>
+
+      <rect x="120" y="185" width="80" height="45" rx="4" fill="#1A6B3A" stroke="#0F3D1F"/>
+      <text x="160" y="204" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Arial">DEBURR /</text>
+      <text x="160" y="218" text-anchor="middle" font-size="9" fill="#BBF7D0" font-family="Arial">WASH  15s</text>
+
+      <!-- Operator zone -->
+      <ellipse cx="215" cy="155" rx="55" ry="35" fill="#ECFDF5" stroke="#16A34A" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="215" y="151" text-anchor="middle" font-size="10" fill="#15803D" font-family="Arial">OPERATOR</text>
+      <text x="215" y="165" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803D" font-family="Arial">ZONE (3)</text>
+
+      <!-- Clean, short flow paths -->
+      <path d="M100 67 L120 67" fill="none" stroke="#15803D" stroke-width="2.5" marker-end="url(#arrA)"/>
+      <path d="M190 67 L205 67" fill="none" stroke="#15803D" stroke-width="2.5" marker-end="url(#arrA)"/>
+      <path d="M275 67 L290 67" fill="none" stroke="#15803D" stroke-width="2.5" marker-end="url(#arrA)"/>
+      <path d="M391 90 L391 140 L412 140 L412 207 L370 207" fill="none" stroke="#15803D" stroke-width="2.5" marker-end="url(#arrA)" stroke-linejoin="round"/>
+      <path d="M290 207 L200 207" fill="none" stroke="#15803D" stroke-width="2.5" marker-end="url(#arrA)"/>
+
+      <!-- Output arrow -->
+      <path d="M120 207 L100 207 L100 270 L215 270" fill="none" stroke="#F0A500" stroke-width="2" stroke-dasharray="none" marker-end="url(#arrA)" stroke-linejoin="round"/>
+
+      <!-- Central supermarket -->
+      <rect x="20" y="270" width="400" height="40" rx="5" fill="#FFF7ED" stroke="#F0A500" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="220" y="286" text-anchor="middle" font-size="11" font-weight="bold" fill="#B45309" font-family="Arial">CENTRAL SUPERMARKET (Kanban Pull)</text>
+      <text x="220" y="300" text-anchor="middle" font-size="9" fill="#92400E" font-family="Arial">Output flows to shared inspection bay → Shipping</text>
+
+      <!-- Distance label -->
+      <rect x="10" y="318" width="420" height="22" rx="3" fill="#DCFCE7" stroke="#86EFAC"/>
+      <text x="220" y="333" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803D" font-family="Arial">Total Travel Distance: 978 m per batch | 1 Cell — no department crossings</text>
+
+      <!-- Takt time badge -->
+      <rect x="10" y="345" width="420" height="22" rx="3" fill="#EFF6FF" stroke="#93C5FD"/>
+      <text x="220" y="360" text-anchor="middle" font-size="11" fill="#1D4ED8" font-family="Arial">Takt Time = 45 s | Line Efficiency = 98.1% | Cycle Time ≤ Takt Time ✓</text>
+    </svg>
+    <div>
+      <span class="metric"><strong>978 m</strong>Travel / batch</span>
+      <span class="metric"><strong>5.4 days</strong>Lead Time</span>
+      <span class="metric"><strong>12.8%</strong>PCE</span>
+    </div>
+  </div>
+</div>
+
+<div class="improvement">
+  ↓ 47% Travel Distance &nbsp;|&nbsp; ↓ 70% Lead Time &nbsp;|&nbsp; ↑ 204% Process Cycle Efficiency
+</div>
+
+</body>
+</html>
