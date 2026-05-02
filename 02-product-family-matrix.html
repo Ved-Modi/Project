@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Family Grouping Matrix — ROC Algorithm</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f8fafc; padding: 2rem; }
+  h1 { color: #1C4E80; font-size: 1.3rem; margin-bottom: 0.2rem; }
+  p.sub { color: #64748B; font-size: 0.82rem; margin-bottom: 1.5rem; }
+  .container { display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center; }
+  .matrix-wrap { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.2rem; }
+  .matrix-wrap h2 { font-size: 1rem; color: #1C4E80; margin: 0 0 0.8rem; text-align: center; }
+  table { border-collapse: collapse; font-size: 12px; }
+  th, td { border: 1px solid #CBD5E1; padding: 6px 10px; text-align: center; min-width: 44px; }
+  th { background: #1C4E80; color: white; font-weight: bold; }
+  td.part { background: #F1F5F9; font-weight: bold; color: #1E293B; text-align: left; min-width: 140px; }
+  td.one { background: #DBEAFE; color: #1D4ED8; font-weight: bold; }
+  td.zero { color: #CBD5E1; }
+  td.family-a { background: #DBEAFE; color: #1D4ED8; font-weight: bold; }
+  td.family-b { background: #D1FAE5; color: #065F46; font-weight: bold; }
+  td.family-c { background: #EDE9FE; color: #4C1D95; font-weight: bold; }
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #374151; }
+  .leg-box { width: 18px; height: 18px; border-radius: 3px; }
+  .arrow-box { text-align: center; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+  .arrow { font-size: 2.5rem; color: #F0A500; font-weight: bold; line-height: 1; }
+  .arrow-label { font-size: 11px; color: #64748B; margin-top: 4px; text-align: center; max-width: 120px; }
+  .family-block { margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .fcard { border-radius: 8px; padding: 0.8rem 1.2rem; min-width: 220px; }
+  .fcard.a { background: #EFF6FF; border: 2px solid #1C4E80; }
+  .fcard.b { background: #ECFDF5; border: 2px solid #1A6B3A; }
+  .fcard.c { background: #F5F3FF; border: 2px solid #7C3AED; }
+  .fcard h3 { margin: 0 0 0.4rem; font-size: 0.95rem; }
+  .fcard.a h3 { color: #1C4E80; }
+  .fcard.b h3 { color: #1A6B3A; }
+  .fcard.c h3 { color: #7C3AED; }
+  .fcard ul { margin: 0; padding-left: 1.2rem; font-size: 12px; color: #374151; }
+  .fcard li { margin-bottom: 3px; }
+</style>
+</head>
+<body>
+<h1>Product Family Grouping Matrix — Rank Order Clustering (ROC) Algorithm</h1>
+<p class="sub">AutoBrake Components Pvt. Ltd. | 14 Parts × 11 Machines | 3 Families Identified after 2 ROC Iterations</p>
+
+<div class="container">
+
+  <!-- BEFORE MATRIX -->
+  <div class="matrix-wrap">
+    <h2>BEFORE — Initial Part-Machine Incidence Matrix</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Part / Machine</th>
+          <th>M1<br>CNC Lathe</th>
+          <th>M2<br>Mach. Ctr.</th>
+          <th>M3<br>Drilling</th>
+          <th>M4<br>Grinder</th>
+          <th>M5<br>Broach</th>
+          <th>M6<br>Honing</th>
+          <th>M7<br>Hyd. Press</th>
+          <th>M8<br>Curing</th>
+          <th>M9<br>Balancing</th>
+          <th>M10<br>CMM</th>
+          <th>M11<br>Torque</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="part">P1 — Disc Rotor</td>    <td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P2 — Drum Flange</td>   <td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P3 — Shaft (Drive)</td> <td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P4 — Caliper Body A</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+        <tr><td class="part">P5 — Caliper Body B</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+        <tr><td class="part">P6 — Cylinder Hsg.</td> <td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+        <tr><td class="part">P7 — Brake Pad A</td>   <td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+        <tr><td class="part">P8 — Brake Pad B</td>   <td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+        <tr><td class="part">P9 — Brake Lining</td>  <td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#94A3B8;margin:0.5rem 0 0;text-align:center;">Note: Simplified 9×11 view of full 14×11 matrix. 1 = machine required; 0 = not required.</p>
+  </div>
+
+  <!-- ARROW -->
+  <div class="arrow-box">
+    <div class="arrow">→</div>
+    <div class="arrow-label">2 iterations of<br><strong>ROC Algorithm</strong></div>
+  </div>
+
+  <!-- AFTER MATRIX -->
+  <div class="matrix-wrap">
+    <h2>AFTER — Rearranged Matrix (Block-Diagonal Pattern)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Part / Machine</th>
+          <th style="background:#1C4E80">M1<br>Lathe</th>
+          <th style="background:#1C4E80">M3<br>Drill</th>
+          <th style="background:#1C4E80">M4<br>Grind</th>
+          <th style="background:#1C4E80">M9<br>Balance</th>
+          <th style="background:#1A6B3A">M2<br>Mach.</th>
+          <th style="background:#1A6B3A">M5<br>Broach</th>
+          <th style="background:#1A6B3A">M6<br>Hone</th>
+          <th style="background:#1A6B3A">M10<br>CMM</th>
+          <th style="background:#7C3AED">M7<br>Press</th>
+          <th style="background:#7C3AED">M8<br>Cure</th>
+          <th style="background:#7C3AED">M11<br>Torque</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="part">P1 — Disc Rotor</td>    <td class="family-a">1</td><td class="family-a">1</td><td class="family-a">1</td><td class="family-a">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P2 — Drum Flange</td>   <td class="family-a">1</td><td class="family-a">1</td><td class="family-a">1</td><td class="family-a">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P3 — Shaft (Drive)</td> <td class="family-a">1</td><td class="family-a">1</td><td class="family-a">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P4 — Caliper Body A</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="family-b">1</td><td class="family-b">1</td><td class="family-b">1</td><td class="family-b">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P5 — Caliper Body B</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="family-b">1</td><td class="family-b">1</td><td class="family-b">1</td><td class="family-b">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P6 — Cylinder Hsg.</td> <td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="family-b">1</td><td class="family-b">1</td><td class="zero">0</td><td class="family-b">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="part">P7 — Brake Pad A</td>   <td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="family-c">1</td><td class="family-c">1</td><td class="family-c">1</td></tr>
+        <tr><td class="part">P8 — Brake Pad B</td>   <td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="family-c">1</td><td class="family-c">1</td><td class="family-c">1</td></tr>
+        <tr><td class="part">P9 — Brake Lining</td>  <td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="family-c">1</td><td class="family-c">1</td><td class="zero">0</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#94A3B8;margin:0.5rem 0 0;text-align:center;">Block-diagonal structure clearly reveals 3 product families → 3 machine cells.</p>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="leg"><div class="leg-box" style="background:#DBEAFE;border:2px solid #1C4E80"></div> Family A — Rotational (Cell 1)</div>
+  <div class="leg"><div class="leg-box" style="background:#D1FAE5;border:2px solid #1A6B3A"></div> Family B — Prismatic (Cell 2)</div>
+  <div class="leg"><div class="leg-box" style="background:#EDE9FE;border:2px solid #7C3AED"></div> Family C — Friction &amp; Assembly (Cell 3)</div>
+  <div class="leg"><div class="leg-box" style="background:#F1F5F9;border:1px solid #CBD5E1"></div> Machine NOT required (0)</div>
+</div>
+
+<!-- Family summary cards -->
+<div class="family-block">
+  <div class="fcard a">
+    <h3>Family A — Cell 1: Rotational Components</h3>
+    <ul>
+      <li>Parts: Disc Rotors, Drum Flanges, Drive Shafts</li>
+      <li>Machines: M1 (Lathe), M3 (Drill), M4 (Grinder), M9 (Balance)</li>
+      <li>Grouping Efficiency: 94.7%</li>
+    </ul>
+  </div>
+  <div class="fcard b">
+    <h3>Family B — Cell 2: Prismatic Housings</h3>
+    <ul>
+      <li>Parts: Caliper Body A/B, Cylinder Housings</li>
+      <li>Machines: M2 (Mach. Ctr.), M5 (Broach), M6 (Hone), M10 (CMM)</li>
+      <li>Grouping Efficiency: 91.3%</li>
+    </ul>
+  </div>
+  <div class="fcard c">
+    <h3>Family C — Cell 3: Friction &amp; Assembly</h3>
+    <ul>
+      <li>Parts: Brake Pad A/B, Brake Lining</li>
+      <li>Machines: M7 (Press), M8 (Curing Oven), M11 (Torque Test)</li>
+      <li>Grouping Efficiency: 96.2%</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
